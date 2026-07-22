@@ -1,100 +1,88 @@
-'use strict';
+"use strict";
 
-function exchangeEgyPound(egyPound) {
-    return Math.round(egyPound / 32);
-}
-function equalFunc(a, b, c) {
-    if (a === b && b === c) {
-        return 3;
-    } else if (a === b || a === c || b === c) {
-        return 2;
-    } else {
-        return 0;
-    }
-}
-function displayHeadings() {
-        let message = prompt("Enter a message:");
+let text1 = prompt("Enter a string:");
+let count = 0;
 
-        for (let i = 1; i <= 6; i++) {
-            document.write(`<h${i}>${message}</h${i}>`);
-        }
-        setTimeout(getuser, 10000);
-    }
-    function getValues() {
-    let sum = 0;
-    let values = [];
-
-    while (true) {
-        let value = prompt("Enter a number for the sum:");
-
-       
-        if (isNaN(value) || value.trim() === "") {
-            alert("Please enter a valid number");
-            continue;
-        }
-
-        value = Number(value);
-
-       
-        if (value === 0) {
-            break;
-        }
-
-        sum += value;
-        values.push(value);
-
-       
-        if (sum > 50) {
-            break;
-        }
-    }
-
-    alert("Values: " + values.join(", ") + "\nSum = " + sum);
-    setTimeout(displayHeadings, 10000);
+for (let i = 0; i < text1.length; i++) {
+  if (text1[i] === "e") {
+    count++;
+  }
 }
 
+document.getElementById("q1").innerHTML = "Number of 'e' characters: " + count;
 
+let text2 = prompt("Enter a string:");
 
-    
+let caseSensitive = confirm("Do you want to consider case sensitivity?");
 
-console.log(equalFunc(3, 4, 3)); 
-console.log(equalFunc(1, 1, 1)); 
-console.log(equalFunc(3, 4, 1)); 
-console.log(exchangeEgyPound(2000));
-console.log(exchangeEgyPound(340));   
-setTimeout(getValues, 10000);
-function getuser() {
-    const firstName = prompt("Enter your first name:");
-    const birthYear = prompt("Enter your age:");
-    const mobileNumber = prompt("Enter your mobile number:");
-    const color = prompt("Enter your favorite color:\n1. Red\n2. Blue\n3. Green");
+let checkText = text2;
 
-    if (color === "1" || color === "2" || color === "3") {
-
-        if (color === "1") {
-            document.write(`<p><strong style="color:red">Welcome dear ${firstName || "Unknown"}!</strong></p>`);
-            document.write(`<p><strong style="color:red">You are ${birthYear || "Unknown"}</strong></p>`);
-            document.write(`<p><strong style="color:red">Mobile Number:</strong> ${mobileNumber || "Unknown"}</p>`);
-        }
-
-        else if (color === "2") {
-            document.write(`<p><strong style="color:blue">Welcome dear ${firstName || "Unknown"}!</strong></p>`);
-            document.write(`<p><strong style="color:blue">You are ${birthYear || "Unknown"}</strong></p>`);
-            document.write(`<p><strong style="color:blue">Mobile Number:</strong> ${mobileNumber || "Unknown"}</p>`);
-        }
-
-        else if (color === "3") {
-            document.write(`<p><strong style="color:green">Welcome dear ${firstName || "Unknown"}!</strong></p>`);
-            document.write(`<p><strong style="color:green">You are ${birthYear || "Unknown"}</strong></p>`);
-            document.write(`<p><strong style="color:green">Mobile Number: ${mobileNumber || "Unknown"}</strong></p>`);
-        }
-
-    }
-     else {
-        alert("Invalid color selection. Please choose 1, 2, or 3.");
-        getuser();
-    }
+if (!caseSensitive) {
+  checkText = checkText.toLowerCase();
 }
 
+let reversed = "";
 
+for (let i = checkText.length - 1; i >= 0; i--) {
+  reversed += checkText[i];
+}
 
+if (checkText === reversed) {
+  document.getElementById("q2").innerHTML = text2 + " is a palindrome";
+} else {
+  document.getElementById("q2").innerHTML = text2 + " is not a palindrome";
+}
+
+let values3 = [];
+
+for (let i = 0; i < 3; i++) {
+  values3[i] = Number(prompt("Enter value " + (i + 1) + ":"));
+}
+
+let sum = values3[0] + values3[1] + values3[2];
+
+let multiplication = values3[0] * values3[1] * values3[2];
+
+let division = values3[0] / values3[1] / values3[2];
+
+document.getElementById("q3").innerHTML =
+  "Sum of the 3 values: " +
+  values3.join("+") +
+  " = " +
+  sum +
+  "<br>" +
+  "Multiplication of the 3 values: " +
+  values3.join("*") +
+  " = " +
+  multiplication +
+  "<br>" +
+  "Division of the 3 values: " +
+  values3.join("/") +
+  " = " +
+  division;
+
+let values4 = [];
+
+for (let i = 0; i < 5; i++) {
+  values4[i] = Number(prompt("Enter value " + (i + 1) + ":"));
+}
+
+let ascending = [...values4].sort((a, b) => a - b);
+
+let descending = [...values4].sort((a, b) => b - a);
+
+document.getElementById("q4").innerHTML =
+  "You've entered the values: " +
+  values4.join(", ") +
+  "<br>" +
+  "Values after sorting descending: " +
+  descending.join(", ") +
+  "<br>" +
+  "Values after sorting ascending: " +
+  ascending.join(", ");
+
+let radius = Number(prompt("Enter the radius of the circle:"));
+
+let area = Math.PI * radius ** 2;
+
+document.getElementById("q5").innerHTML = "The area of the circle is: " + area;
