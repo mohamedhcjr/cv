@@ -4,40 +4,278 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Lab 3 - JavaScript</title>
+    <title>Video Controls</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        video {
+            width: 600px;
+            max-width: 90%;
+        }
+
+        .controls {
+            margin-top: 15px;
+        }
+
+        button {
+            margin: 2px;
+            padding: 5px 10px;
+        }
+
+        input {
+            vertical-align: middle;
+        }
+
+        #progress {
+            width: 300px;
+        }
+
+        #volume {
+            width: 100px;
+        }
+
+        #speed {
+            width: 100px;
+        }
+
+        #time {
+            margin-left: 10px;
+        }
+    </style>
 </head>
 
 <body>
 
-    <h1>Lab 3 Solutions</h1>
+    <h1>Video Player</h1>
 
-    <hr>
+    <video id="myVideo">
+        <source src="video.mp4" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
 
-    <h2>Question 1</h2>
-    <p id="q1"></p>
+    <br>
 
-    <hr>
+    <div class="controls">
 
-    <h2>Question 2</h2>
-    <p id="q2"></p>
+        <button id="playBtn">Play</button>
+        <button id="stopBtn">Stop</button>
 
-    <hr>
+        <button id="backward10"><<</button>
+        <button id="backward5"><</button>
 
-    <h2>Question 3</h2>
-    <p id="q3"></p>
+        <button id="forward5">></button>
+        <button id="forward10">>></button>
 
-    <hr>
+        <br><br>
 
-    <h2>Question 4</h2>
-    <p id="q4"></p>
+        <input 
+            type="range"
+            id="progress"
+            min="0"
+            value="0"
+            step="0.1"
+        >
 
-    <hr>
+        <span id="time">0:00 / 0:00</span>
 
-    <h2>Question 5</h2>
-    <p id="q5"></p>
+        <br><br>
 
+        <input 
+            type="range"
+            id="volume"
+            min="0"
+            max="1"
+            step="0.1"
+            value="1"
+        >
 
-    <script src="file.js"></script>
+        <button id="muteBtn">Mute</button>
+
+        <br><br>
+
+        <label>Speed</label>
+
+        <input
+            type="range"
+            id="speed"
+            min="0.5"
+            max="2"
+            step="0.1"
+            value="1"
+        >
+
+        <span id="speedValue">1x</span>
+
+    </div>
+
+    <script>
+        "use strict";
+
+        let video = document.getElementById("myVideo");
+
+        let playBtn = document.getElementById("playBtn");
+        let stopBtn = document.getElementById("stopBtn");
+
+        let backward10 = document.getElementById("backward10");
+        let backward5 = document.getElementById("backward5");
+
+        let forward5 = document.getElementById("forward5");
+        let forward10 = document.getElementById("forward10");
+
+        let progress = document.getElementById("progress");
+
+        let time = document.getElementById("time");
+
+        let volume = document.getElementById("volume");
+
+        let muteBtn = document.getElementById("muteBtn");
+
+        let speed = document.getElementById("speed");
+        let speedValue = document.getElementById("speedValue");
+
+        playBtn.addEventListener("click", function () {
+
+            if (video.paused) {
+
+                video.play();
+
+                playBtn.textContent = "Pause";
+
+            } else {
+
+                video.pause();
+
+                playBtn.textContent = "Play";
+            }
+
+        });
+
+        stopBtn.addEventListener("click", function () {
+
+            video.pause();
+
+            video.currentTime = 0;
+
+            playBtn.textContent = "Play";
+
+        });
+
+        backward10.addEventListener("click", function () {
+
+            video.currentTime -= 10;
+
+        });
+
+        backward5.addEventListener("click", function () {
+
+            video.currentTime -= 5;
+
+        });
+
+        forward5.addEventListener("click", function () {
+
+            video.currentTime += 5;
+
+        });
+
+        forward10.addEventListener("click", function () {
+
+            video.currentTime += 10;
+
+        });
+
+        video.addEventListener("timeupdate", function () {
+
+            progress.value = video.currentTime;
+
+            updateTime();
+
+        });
+
+        video.addEventListener("loadedmetadata", function () {
+
+            progress.max = video.duration;
+
+            updateTime();
+
+        });
+
+        progress.addEventListener("input", function () {
+
+            video.currentTime = progress.value;
+
+        });
+
+        volume.addEventListener("input", function () {
+
+            video.volume = volume.value;
+
+        });
+
+        muteBtn.addEventListener("click", function () {
+
+            if (video.muted) {
+
+                video.muted = false;
+
+                muteBtn.textContent = "Mute";
+
+            } else {
+
+                video.muted = true;
+
+                muteBtn.textContent = "Unmute";
+
+            }
+
+        });
+
+        speed.addEventListener("input", function () {
+
+            video.playbackRate = speed.value;
+
+            speedValue.textContent = speed.value + "x";
+
+        });
+
+        function updateTime() {
+
+            let current = formatTime(video.currentTime);
+
+            let duration = formatTime(video.duration);
+
+            time.textContent = current + " / " + duration;
+
+        }
+
+        function formatTime(seconds) {
+
+            if (isNaN(seconds)) {
+
+                return "0:00";
+
+            }
+
+            let minutes = Math.floor(seconds / 60);
+
+            let secs = Math.floor(seconds % 60);
+
+            if (secs < 10) {
+
+                secs = "0" + secs;
+
+            }
+
+            return minutes + ":" + secs;
+
+        }
+
+    </script>
 
 </body>
 </html>
